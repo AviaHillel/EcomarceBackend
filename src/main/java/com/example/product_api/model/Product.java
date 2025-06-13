@@ -2,6 +2,7 @@ package com.example.product_api.model;
 
 import jakarta.persistence.*;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 public class Product {
@@ -9,17 +10,14 @@ public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
     @Column(nullable = false, length = 100)
     private String name;
-
     private String description;
-
     @Column(nullable = false)
     private Integer stockQuantity;
-
+    @Column(nullable = false)
+    private BigDecimal price;
     private LocalDateTime createdDate;
-
     private LocalDateTime updatedDate;
 
     @PrePersist
@@ -38,10 +36,11 @@ public class Product {
     public Product() {
     }
 
-    public Product(String name, String description, Integer stockQuantity) {
+    public Product(String name, String description, Integer stockQuantity, BigDecimal price) {
         this.name = name;
         this.description = description;
         this.stockQuantity = stockQuantity;
+        this.price = price;
     }
 
     //getters
@@ -60,6 +59,10 @@ public class Product {
 
     public Integer getStockQuantity() {
         return stockQuantity;
+    }
+
+    public BigDecimal getPrice() {
+        return price;
     }
 
     public LocalDateTime getCratedDate() {
@@ -85,6 +88,10 @@ public class Product {
 
     public void setStockQuantity(Integer stockQuantity) {
         this.stockQuantity = stockQuantity;
+    }
+
+    public void setPrice(BigDecimal price) {
+        this.price = price;
     }
 
     public void setCratedDate(LocalDateTime cratedDate) {
