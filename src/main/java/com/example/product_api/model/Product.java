@@ -1,21 +1,30 @@
 package com.example.product_api.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.DecimalMin;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
+@Entity
 public class Product {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @Column(nullable = false, length = 100)
+    @NotBlank
+    @Size(max = 100)
     private String name;
     private String description;
     @Column(nullable = false)
+    @Min(0)
     private Integer stockQuantity;
     @Column(nullable = false)
+    @DecimalMin(value = "0.0", inclusive = true)
     private BigDecimal price;
     private LocalDateTime createdDate;
     private LocalDateTime updatedDate;
@@ -65,7 +74,7 @@ public class Product {
         return price;
     }
 
-    public LocalDateTime getCratedDate() {
+    public LocalDateTime getCreatedDate() {
         return createdDate;
     }
 
@@ -94,7 +103,7 @@ public class Product {
         this.price = price;
     }
 
-    public void setCratedDate(LocalDateTime cratedDate) {
+    public void setCreatedDate(LocalDateTime cratedDate) {
         this.createdDate = cratedDate;
     }
 

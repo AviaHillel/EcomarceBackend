@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -21,7 +22,16 @@ public class ProductController {
 
     @PostMapping
     public ResponseEntity<Product> createProduct(@Validated @RequestBody Product product){
-        return new ResponseEntity<>(service.createProdect(product), HttpStatus.CREATED);
+        return new ResponseEntity<>(service.createProduct(product), HttpStatus.CREATED);
+    }
+
+    @PostMapping("/bulk")
+    public ResponseEntity<List<Product>> createProducts(@Validated @RequestBody List<Product> products){
+        List<Product> createdProducts = new ArrayList<>();
+        for (Product product : products) {
+            createdProducts.add(service.createProduct(product));
+        }
+        return new ResponseEntity<>(createdProducts, HttpStatus.CREATED);
     }
 
     @GetMapping
@@ -34,7 +44,7 @@ public class ProductController {
         return service.getProductById(id);
     }
 
-    @PutMapping
+    @PutMapping("/{id}")
     public Product updateProduct(@PathVariable Long id, @Validated @RequestBody Product product){
         return service.updateProduct(id, product);
     }
